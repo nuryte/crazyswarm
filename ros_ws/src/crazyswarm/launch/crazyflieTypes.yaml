@@ -1,8 +1,8 @@
 crazyflieTypes:
-  default:
-    bigQuad: False
-    batteryVoltageWarning: 3.8  # V
-    batteryVoltateCritical: 3.7 # V
+  sausage:
+    bigQuad: True
+    batteryVoltageWarning: 7.6  # V
+    batteryVoltateCritical: 7.4 # V
     markerConfiguration: 0 # change to 3 for single marker tracking
     dynamicsConfiguration: 0
     firmwareParams:
@@ -11,15 +11,65 @@ crazyflieTypes:
         kd_xy: 0.2 # 0.35 # d for position
         ki_xy: 0.05
         i_range_xy: 2.0
-        kR_xy: 70000 # p for attitude
-        kw_xy: 20000 # d for attitude
-        kR_z: 60000 # 70000 # p for yaw
-        kw_z: 12000 # 30000  # d for yaw
+        kR_xy: -.1 # p for attitude
+        kw_xy: -2 # d for attitude
+        kR_z: 5 # 70000 # p for yaw
+        kw_z: -1 #-.08 # 30000  # d for yaw
         ki_m_z: 500 #0 #20000     # i for yaw
         i_range_m_z: 1500 # i range for yaw
         kd_omega_rp: 200 # roll and pitch angular velocity d gain
-        kp_z: 1.25
+        kp_z: .8
         kd_z: 0.4
+        ki_z: 0.05
+        i_range_z: 0.4
+        mass: 0.032
+        massThrust: 132000
+  sausagenofeed:
+    bigQuad: True
+    batteryVoltageWarning: 7.6  # V
+    batteryVoltateCritical: 7.4 # V
+    markerConfiguration: 0 # change to 3 for single marker tracking
+    dynamicsConfiguration: 0
+    firmwareParams:
+      ctrlMel:
+        kp_xy: 0 #0.6 # p for position
+        kd_xy: 0 # 0.35 # d for position
+        ki_xy: 0.05
+        i_range_xy: 2.0
+        kR_xy: 0 # -.1 # p for attitude
+        kw_xy: 0 #-2 # d for attitude
+        kR_z: 0 #5 # 70000 # p for yaw
+        kw_z: 0 # -1 #-.08 # 30000  # d for yaw
+        ki_m_z: 500 #0 #20000     # i for yaw
+        i_range_m_z: 1500 # i range for yaw
+        kd_omega_rp: 200 # roll and pitch angular velocity d gain
+        kp_z: .8
+        kd_z: 0.4
+        ki_z: 0.05
+        i_range_z: 0.4
+        mass: 0.032
+        massThrust: 132000
+  bicopter:
+    bigQuad: True
+    batteryVoltageWarning: 7.6  # V
+    batteryVoltateCritical: 7.4 # V
+    markerConfiguration: 0 # change to 3 for single marker tracking
+    dynamicsConfiguration: 0
+    firmwareParams:
+      ctrlMel:
+        kp_xy: 0.4 #0.6 # p for position
+        kd_xy: 0.2 # 0.35 # d for position
+        ki_xy: 0.05
+        i_range_xy: 2.0
+        kR_xy: .0001 # p for attitude #tuneable
+        kw_xy: .01 # d for attitude #tuneable
+        kR_z: 1 # 70000 # p for yaw #tuneable
+        kw_z: .04 # 30000  # d for yaw #tuneable
+        ki_m_z: 500 #0 #20000     # i for yaw
+        i_range_m_z: 1500 # i range for yaw
+        kd_omega_rp: 200 # roll and pitch angular velocity d gain
+        kp_z: .8 #tuneable
+        kd_z: .4 #tuneable
         ki_z: 0.05
         i_range_z: 0.4
         mass: 0.032

@@ -6,40 +6,25 @@ from pycrazyswarm import *
 import uav_trajectory
 
 
-def executeTrajectory(timeHelper, cf, trajpath, rate=100, offset=np.zeros(3)):
-    traj = uav_trajectory.Trajectory()
-    traj.loadcsv(trajpath)
-
-    start_time = timeHelper.time()
-    while not timeHelper.isShutdown():
-        t = timeHelper.time() - start_time
-        if t > traj.duration:
-            break
-
-        e = traj.eval(t)
-        cf.cmdFullState(
-            e.pos + np.array(cf.initialPosition) + offset,
-            e.vel,
-            e.acc,
-            e.yaw,
-            e.omega)
-
-        timeHelper.sleepForRate(rate)
-
 
 if __name__ == "__main__":
+    print("STARTING UP")
     swarm = Crazyswarm()
     timeHelper = swarm.timeHelper
+    print("attempting to connect?")
     cf = swarm.allcfs.crazyflies[0]
+    print("connected")
 
-    rate = 30.0
-    Z = 0.5
+    rate = 10.0
+    
+    start_time = timeHelper.time()
+    print("GOING IN")
+    while not timeHelper.isShutdown():
+    
 
-    cf.takeoff(targetHeight=Z, duration=Z+1.0)
-    timeHelper.sleep(Z+2.0)
+        cf.cmdVelocityWorld([0,0,0],0)
+        #cf.cmdPosition([0,0,0],0)
 
-    executeTrajectory(timeHelper, cf, "figure8.csv", rate, offset=np.array([0, 0, 0.5]))
+        timeHelper.sleepForRate(rate)
+    print("GOING DARK")
 
-    cf.notifySetpointsStop()
-    cf.land(targetHeight=0.03, duration=Z+1.0)
-    timeHelper.sleep(Z+2.0)
