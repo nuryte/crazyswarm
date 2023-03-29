@@ -225,7 +225,7 @@ class OpenBlimp:
                     #    fz = 1.5
                     fx = self.joy_dx *.6
                     tauz = - self.joy_tauz *.15
-                    taux = - self.joy_taux *-.03
+                    taux = - self.joy_taux *-.1#.03
                     self._cf.cmdVelocityWorld([fx, fz, tauz], taux)
 
 
