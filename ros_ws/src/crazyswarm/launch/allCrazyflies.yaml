@@ -3,6 +3,10 @@ crazyflies:
      channel: 80
      initialPosition: [0, 0, 0.0]
      type: bicopter
+   - id: 01
+     channel: 80
+     initialPosition: [0, 0, 0.0]
+     type: bicopter
    - id: 03
      channel: 81
      initialPosition: [0, 0, 0.0]

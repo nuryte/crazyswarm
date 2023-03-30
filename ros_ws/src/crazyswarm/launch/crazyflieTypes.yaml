@@ -63,8 +63,8 @@ crazyflieTypes:
         i_range_xy: 2.0
         kR_xy: .0001 # p for attitude #tuneable
         kw_xy: .01 # d for attitude #tuneable
-        kR_z: 1 # 70000 # p for yaw #tuneable
-        kw_z: .04 # 30000  # d for yaw #tuneable
+        kR_z: 2 # 70000 # p for yaw #tuneable
+        kw_z: .08 # 30000  # d for yaw #tuneable
         ki_m_z: 500 #0 #20000     # i for yaw
         i_range_m_z: 1500 # i range for yaw
         kd_omega_rp: 200 # roll and pitch angular velocity d gain
