@@ -11,8 +11,8 @@ crazyflieTypes:
         kd_xy: 0.2 # 0.35 # d for position
         ki_xy: 0.05
         i_range_xy: 2.0
-        kR_xy: -.1 # p for attitude
-        kw_xy: -2 # d for attitude
+        kR_xy: 0 #.1 #-.1# p for attitude
+        kw_xy: 0 #-2 # d for attitude
         kR_z: 5 # 70000 # p for yaw
         kw_z: -1 #-.08 # 30000  # d for yaw
         ki_m_z: 500 #0 #20000     # i for yaw

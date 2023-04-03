@@ -10,10 +10,10 @@ crazyflies:
    - id: 03
      channel: 81
      initialPosition: [0, 0, 0.0]
-     type: sausagenofeed
+     type: sausage
    - id: 04
      channel: 81
      initialPosition: [0, 0, 0.0]
-     type: sausagenofeed
+     type: sausage
      
    
