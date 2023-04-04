@@ -284,15 +284,15 @@ class OpenBlimp:
             self.joy_R = lastData.buttons[5] 
             self.joy_L = lastData.buttons[4] 
 
-            self.joy_pad = lastData.axes[7] 
-            self.joy_tauz = lastData.axes[6] 
+            self.joy_pad = lastData.buttons[15]  - lastData.buttons[16]  
+            self.joy_tauz = lastData.buttons[13] - lastData.buttons[14]  
             
             
             self.joy_tauy   = lastData.axes[1] # dz aka height
             self.joy_taux = lastData.axes[0] # taux aka roll
 
-            self.joy_dx   = lastData.axes[4] #dx
-            self.joy_dy = lastData.axes[3] #dy
+            self.joy_dx   = lastData.axes[3] #dx
+            self.joy_dy = lastData.axes[2] #dy
             
 
 
