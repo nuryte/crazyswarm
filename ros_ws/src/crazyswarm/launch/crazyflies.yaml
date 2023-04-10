@@ -1,10 +1,5 @@
 crazyflies:
- - channel: 81
-   id: 03
+ - channel: 80
+   id: 01
    initialPosition: [0, 0, 0.0]
-   type: sausage
- - channel: 81
-   id: 04
-   initialPosition: [0, 0, 0.0]
-   type: sausage
-   
+   type: bicopter

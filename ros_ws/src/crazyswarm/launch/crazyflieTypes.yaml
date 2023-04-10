@@ -1,6 +1,7 @@
 crazyflieTypes:
   sausage:
     bigQuad: True
+    controller: 2
     batteryVoltageWarning: 7.6  # V
     batteryVoltateCritical: 7.4 # V
     markerConfiguration: 0 # change to 3 for single marker tracking

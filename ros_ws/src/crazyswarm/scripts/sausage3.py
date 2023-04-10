@@ -22,7 +22,7 @@ joy_pitch = 0
 joy_roll = 0
 joy_thrust = 0
 joy_yaw = 0
-
+MVarr = [0,0,0,0]
 
 from std_msgs.msg import  Float64MultiArray
 import rospy
@@ -47,7 +47,7 @@ class OpenBlimp:
         print("attempting to connect?")
         self.timeHelper = swarm.timeHelper
         self._cf1 = swarm.allcfs.crazyflies[0]
-        self._cf2 = swarm.allcfs.crazyflies[1]
+        #self._cf2 = swarm.allcfs.crazyflies[1]
         print("connected")
 
         
@@ -76,6 +76,7 @@ class OpenBlimp:
         self.joy_a = 0
         self.joy_R = 0
         self.joy_L = 0
+        self.past_x = 0
         self.past_b = 0
         self.joy_b = 0
         self.cntrl_state = 0 # 0: controller 1: autopilot
@@ -166,6 +167,13 @@ class OpenBlimp:
         pass
 
     '''
+    def openMV(self, data):
+        global MVarr
+        MVarr[0] = data.data[0]
+        MVarr[1] = data.data[1]
+        MVarr[2] = data.data[2]
+        MVarr[3] = data.data[3]
+
     def _control(self):
         #self._update_params()
 
@@ -190,13 +198,19 @@ class OpenBlimp:
         ty = 0#.25# tauz has a maximum of .25
         tz = 0
         b_state = True
+
+        x_state = False
         b_old = 0
         motorbase = 30
 
         rate = 40
         counter = 0
+        horizontal_old = 0
+        vertical_old = 0
+        size_old = 0
  
         print("starting control")
+        rospy.Subscriber("openmv", Float64MultiArray, self.openMV)
 
         try:
             
@@ -212,14 +226,61 @@ class OpenBlimp:
                 if self.joy_b == 1 and self.past_b == 0:
                     b_state = not b_state
                     print("swap", b_state)
+                elif self.joy_x == 1 and self.past_x == 0:
+                    x_state = not x_state
+                    print("automatic swap: ", x_state)
                 
                 if b_state:
                     fx = 0
                     fz = 0
                     tauz = 0
                     taux = 0
-                    self._cf1.cmdFullState([0,0,0], [0,0,0],[5, 0, 0], 0, [0, 0, 0])
-                    self._cf2.cmdFullState([0,0,0], [0,0,0],[6, 0, 0], 0, [0, 0, 0])
+                    self._cf1.cmdFullState([0,0,0], [0,0,0],[7, 0, 0], 0, [0, 0, 0])
+                elif x_state:
+                    horizontal = MVarr[0] +.2
+                    vertical = MVarr[1]
+                    size = MVarr[2] # in pixels
+                    if size == 0:
+                        fx = 0
+                        tx = 0
+                        tz = .03
+                    else:
+                        
+                        #fz += vertical
+                        spread = 30# larger value = smaller spread # 10 is probs minimum 
+                        mag = .01# increase of the laplace function magnitue
+                        
+                        if abs(horizontal ) < .15:
+                            fx = .1 
+                            print("seen")
+                        else:
+                            fx = 0
+                        fz = -vertical/10
+                        
+                        
+                        tz = horizontal* 3 /(size*100)#- (horizontal_old-horizontal)/rate*5
+                        if tz > .1:
+                            tz = .1
+                            
+
+                        fz = 0
+                        fy = 0
+                        
+                        tx = 0
+                        ty = 0
+
+                    horizontal_old = horizontal
+                    vertical_old = vertical
+                    size_old = size
+                    self._cf1.cmdFullState([fx, fy, fz], [tx, ty, tz],[0, 0, 0], 0, [0, 0, 0])
+                    '''
+                    fx = 0
+                    fz = 0
+                    tauz = 0
+                    taux = 0
+                    self._cf1.cmdFullState([0,0,0], [0,0,0],[0, 1, 0], 0, [0, 0, 0])
+                    '''
+                    
                     
                 else:
                     '''fx = 0 # range -3.5:3.5 # operation range 0:4
@@ -229,18 +290,17 @@ class OpenBlimp:
                     ty = 0 # range -.5:.5 # yaw is exactly the same thoughts as for roll but on same side
                     tz = .5 # range -.5:5 # this one has much less restrictions since yaw can not cause the motors to go negative when z is positive
                     '''
-                    fz += self.joy_pad /rate*3 #up down
-                    if fz <-1:
-                        fz = -1
+                    fz = self.joy_pad *3 #up down
+                    
                     #if fz > 1.5:
                     #    fz = 1.5
                     fx = self.joy_dx #forward
                     fy = self.joy_dy
-                    tz = self.joy_tauz * .5 #yaw
+                    tz = - self.joy_tauz  #yaw
                     ty = - self.joy_tauy *.5 #pitch
-                    tx = - self.joy_taux *.5 #roll
-                    self._cf1.cmdFullState([fx, fy, fz], [tx, ty, tz],[3, 0, 0], 0, [0, 0, 0])
-                    self._cf2.cmdFullState([fx, fy, fz], [tx, ty, tz],[4, 0, 0], 0, [0, 0, 0])
+                    tx = self.joy_dy*.3#- self.joy_taux *.5 #roll
+                    self._cf1.cmdFullState([fx, fy, fz], [tx, ty, tz],[0, 0, 0], 0, [0, 0, 0])
+                    
                     
                     
 
@@ -276,8 +336,9 @@ class OpenBlimp:
 
     def update_joydata(self):
         if lastData != None:
-            self.joy_x = lastData.buttons[2]
-            self.joy_y = lastData.buttons[3]
+            self.past_x = self.joy_x 
+            self.joy_x = lastData.buttons[3]
+            self.joy_y = lastData.buttons[4]
             self.joy_a = lastData.buttons[0]
             self.past_b = self.joy_b 
             self.joy_b = lastData.buttons[1]
