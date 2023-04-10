@@ -208,7 +208,7 @@ class OpenBlimp:
         horizontal_old = 0
         vertical_old = 0
         size_old = 0
- 
+        capture_timer = 3*rate
         print("starting control")
         rospy.Subscriber("openmv", Float64MultiArray, self.openMV)
 
@@ -235,35 +235,40 @@ class OpenBlimp:
                     fz = 0
                     tauz = 0
                     taux = 0
+                    capture_timer = 3*rate
+                    x_state = False
                     self._cf1.cmdFullState([0,0,0], [0,0,0],[7, 0, 0], 0, [0, 0, 0])
                 elif x_state:
-                    horizontal = MVarr[0] +.2
+                    horizontal = MVarr[0] 
                     vertical = MVarr[1]
                     size = MVarr[2] # in pixels
+                    captured = MVarr[3]
                     if size == 0:
+
+                        if captured and capture_timer != 0:
+                            capture_timer += -1
+                            print("CAPTURING")
+                            fx = .2
                         fx = 0
                         tx = 0
-                        tz = .03
+                        tz = horizontal_old*.5/size
                     else:
                         
-                        #fz += vertical
-                        spread = 30# larger value = smaller spread # 10 is probs minimum 
-                        mag = .01# increase of the laplace function magnitue
                         
-                        if abs(horizontal ) < .15:
+                        if abs(horizontal ) < .15 :
                             fx = .1 
                             print("seen")
                         else:
                             fx = 0
-                        fz = -vertical/10
+                        fz = -vertical/2
                         
                         
-                        tz = horizontal* 3 /(size*100)#- (horizontal_old-horizontal)/rate*5
-                        if tz > .1:
-                            tz = .1
+                        tz = horizontal* 2 /(size)#- (horizontal_old-horizontal)/rate*5
+                        if tz > .2:
+                            tz = .2
                             
+                        
 
-                        fz = 0
                         fy = 0
                         
                         tx = 0
@@ -290,15 +295,15 @@ class OpenBlimp:
                     ty = 0 # range -.5:.5 # yaw is exactly the same thoughts as for roll but on same side
                     tz = .5 # range -.5:5 # this one has much less restrictions since yaw can not cause the motors to go negative when z is positive
                     '''
-                    fz = self.joy_pad *3 #up down
+                    fz = self.joy_pad  #up down
                     
                     #if fz > 1.5:
                     #    fz = 1.5
-                    fx = self.joy_dx #forward
+                    fx = self.joy_dx *.5#forward
                     fy = self.joy_dy
                     tz = - self.joy_tauz  #yaw
                     ty = - self.joy_tauy *.5 #pitch
-                    tx = self.joy_dy*.3#- self.joy_taux *.5 #roll
+                    tx = self.joy_dy*.2#- self.joy_taux *.5 #roll
                     self._cf1.cmdFullState([fx, fy, fz], [tx, ty, tz],[0, 0, 0], 0, [0, 0, 0])
                     
                     

@@ -13,6 +13,8 @@ rospy.init_node('talker', anonymous=True)
 ave_size = 0
 
 my_array = []
+prev_hor = 0
+prev_ver = 0
 
 pixel_focal_length = (240) * (2.8) / (3) #
 def object_tracking(hor, ver,ave_size):
@@ -88,6 +90,8 @@ def object_tracking(hor, ver,ave_size):
 
 # color detection remote call
 def exe_color_detection(interface):
+	global prev_hor
+	global prev_ver
 	result = interface.call("color_detection")
 	if result is not None and len(result):
 		res = struct.unpack("<HHHH", result)
@@ -97,12 +101,21 @@ def exe_color_detection(interface):
 		horizon = round(res[0])
 		vertical = round(res[1])
 		global ave_size
-		ave_size = ave_size *.7 + max(res[2], res[3]) * .3
-		temp = [round(horizon/160-.5-.15,2), round(vertical/120-.5,2), round(ave_size,2)]
-		print(temp)
+		if res[2] > 0 or res[3] > 0:
+			ave_size = ave_size *.7 + max(res[2], res[3]) * .3
+			temp = [round(horizon/160-.5-.15,3), round(vertical/120-.5  -0.016 * ave_size + .425,3), round(ave_size,2), 0]#- (ave_size - 25)/42 
+			prev_hor = temp[0]
+			prev_ver = temp[1]
+			
+			my_array.append(temp)
+		else:
+			temp = [prev_hor,prev_ver,0,0]
+			if abs(prev_hor) < .3 and abs(vertical) < .1 and ave_size > 30:
+				temp[3] = 1
+		#print(temp)
+
 		#if res[2] > 0 or res[3] > 0:
 		#		object_tracking(horizon, vertical, ave_size)
-		my_array.append(temp)
 		msg.data = temp
 		pub.publish(msg)
 
@@ -114,9 +127,12 @@ if __name__ == "__main__":
 		#print(counter)
 		sys.stdout.flush()
 		exe_color_detection(interface)
+	'''
 	with open("data/line.csv", 'w+', newline = "") as csv_file:
 		writer = csv.writer(csv_file)
 		for row in my_array:
 			writer.writerow(row)
+			'''
+	
 			
 		

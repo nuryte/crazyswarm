@@ -293,9 +293,9 @@ class OpenBlimp:
                             else:
                                 fx = 0
                             
-                            tz = -horizontal* 3 /(size**.5)#- (horizontal_old-horizontal)/rate*5
-                            if tz > .04:
-                                tz = .04
+                            tz = -horizontal* 300000 /(size)#- (horizontal_old-horizontal)/rate*5
+                            if tz > .5:
+                                tz = .5
                             horizontal_old = horizontal
                             tx = 0
                         
