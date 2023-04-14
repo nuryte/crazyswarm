@@ -239,40 +239,51 @@ class OpenBlimp:
                     x_state = False
                     self._cf1.cmdFullState([0,0,0], [0,0,0],[7, 0, 0], 0, [0, 0, 0])
                 elif x_state:
+                    '''
                     horizontal = MVarr[0] 
                     vertical = MVarr[1]
                     size = MVarr[2] # in pixels
                     captured = MVarr[3]
-                    if size == 0:
+                    if False:
+                        if size == 0:
 
-                        if captured and capture_timer != 0:
-                            capture_timer += -1
-                            print("CAPTURING")
-                            fx = .2
-                        fx = 0
-                        tx = 0
-                        tz = horizontal_old*.5/size
-                    else:
-                        
-                        
-                        if abs(horizontal ) < .15 :
-                            fx = .1 
-                            print("seen")
-                        else:
+                            if captured and capture_timer != 0:
+                                capture_timer += -1
+                                print("CAPTURING")
+                                fx = .2
                             fx = 0
-                        fz = -vertical/2
-                        
-                        
-                        tz = horizontal* 2 /(size)#- (horizontal_old-horizontal)/rate*5
-                        if tz > .2:
-                            tz = .2
+                            tx = 0
+                            tz = horizontal_old*.5/20
+                        else:
                             
-                        
+                            
+                            if abs(horizontal ) < .15 :
+                                fx = .1 
+                                print("seen")
+                            else:
+                                fx = 0
+                            fz = -vertical/2
+                            
+                            
+                            tz = horizontal* 2 /(size)#- (horizontal_old-horizontal)/rate*5
+                            if tz > .4:
+                                tz = .4
+                                
+                            
 
-                        fy = 0
-                        
+                            fy = 0
+                            
+                            tx = 0
+                            ty = 0
+                    else:
+                        angular_vel = (MVarr[0])
+                        magnitude = -(MVarr[1] - .2)
+                        fx = magnitude
                         tx = 0
+                        fy = 0
                         ty = 0
+                        fz = 0
+                        tz = angular_vel*.5
 
                     horizontal_old = horizontal
                     vertical_old = vertical
@@ -284,7 +295,7 @@ class OpenBlimp:
                     tauz = 0
                     taux = 0
                     self._cf1.cmdFullState([0,0,0], [0,0,0],[0, 1, 0], 0, [0, 0, 0])
-                    '''
+                    
                     
                     
                 else:
@@ -299,9 +310,9 @@ class OpenBlimp:
                     
                     #if fz > 1.5:
                     #    fz = 1.5
-                    fx = self.joy_dx *.5#forward
+                    fx = self.joy_dx  + 0.0#forward
                     fy = self.joy_dy
-                    tz = - self.joy_tauz  #yaw
+                    tz = - self.joy_tauz *1.5 #yaw
                     ty = - self.joy_tauy *.5 #pitch
                     tx = self.joy_dy*.2#- self.joy_taux *.5 #roll
                     self._cf1.cmdFullState([fx, fy, fz], [tx, ty, tz],[0, 0, 0], 0, [0, 0, 0])

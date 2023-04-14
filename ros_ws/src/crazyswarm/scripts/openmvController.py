@@ -119,14 +119,27 @@ def exe_color_detection(interface):
 		msg.data = temp
 		pub.publish(msg)
 
+def exe_light_detection(interface):
+	result = interface.call("light_detection")
+	if result is not None and len(result):
+		res = struct.unpack("<ffff", result)
+		#print("Largest Color Detected: {}".format(res[0]))
+		msg = Float64MultiArray()
+		temp = [res[0], res[1],res[2],res[3]]
+		print(temp)
+		msg.data = temp
+		pub.publish(msg)
+
+
 if __name__ == "__main__":
-	interface = rpc.rpc_network_master(slave_ip="192.168.0.36", my_ip="", port=0x1DBA)
+	interface = rpc.rpc_network_master(slave_ip="192.168.0.155", my_ip="", port=0x1DBA) #138
 	counter = 0
 	while not rospy.is_shutdown():
 		counter += 1
 		#print(counter)
 		sys.stdout.flush()
-		exe_color_detection(interface)
+		exe_light_detection(interface)
+		#exe_color_detection(interface)
 	'''
 	with open("data/line.csv", 'w+', newline = "") as csv_file:
 		writer = csv.writer(csv_file)

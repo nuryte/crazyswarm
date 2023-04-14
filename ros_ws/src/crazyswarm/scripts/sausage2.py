@@ -229,9 +229,8 @@ class OpenBlimp:
                     ty = 0 # range -.5:.5 # yaw is exactly the same thoughts as for roll but on same side
                     tz = .5 # range -.5:5 # this one has much less restrictions since yaw can not cause the motors to go negative when z is positive
                     '''
-                    fz += self.joy_pad /rate*3 #up down
-                    if fz <-1:
-                        fz = -1
+                    fz = self.joy_pad  #up down
+                    
                     #if fz > 1.5:
                     #    fz = 1.5
                     fx = self.joy_dx #forward
@@ -275,7 +274,7 @@ class OpenBlimp:
         lastData = data
 
     def update_joydata(self):
-        if lastData != None:
+        if lastData != None:    
             self.joy_x = lastData.buttons[2]
             self.joy_y = lastData.buttons[3]
             self.joy_a = lastData.buttons[0]
