@@ -235,9 +235,9 @@ class OpenBlimp:
                     #    fz = 1.5
                     fx = self.joy_dx #forward
                     fy = self.joy_dy
-                    tz = self.joy_tauz * .5 #yaw
-                    ty = - self.joy_tauy *.5 #pitch
-                    tx = - self.joy_taux *.5 #roll
+                    tz = self.joy_tauz  #yaw
+                    ty = self.joy_tauy #pitch
+                    tx = - self.joy_taux     #roll
                     self._cf1.cmdFullState([fx, fy, fz], [tx, ty, tz],[3, 0, 0], 0, [0, 0, 0])
                     self._cf2.cmdFullState([fx, fy, fz], [tx, ty, tz],[4, 0, 0], 0, [0, 0, 0])
                     
@@ -287,8 +287,8 @@ class OpenBlimp:
             self.joy_tauz = lastData.axes[0] 
             
             
-            self.joy_tauy   = lastData.axes[6] # dz aka height
-            self.joy_taux = lastData.axes[7] # taux aka roll
+            self.joy_tauy   = lastData.axes[7] # dz aka height
+            self.joy_taux = lastData.axes[6] # taux aka roll
 
             self.joy_dx   = lastData.axes[3] #dx
             self.joy_dy = lastData.axes[2] #dy
