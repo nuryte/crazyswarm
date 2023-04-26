@@ -89,13 +89,15 @@ crazyflieTypes:
         i_range_z: 0.4
         mass: 0.032
         massThrust: 132000
-        ballpfx: 0 # .003  #speed
-        balldfx: 70 #.018 #distance
-        ballptx: 0.5 #.5 #.1 
+        ballpfx: 0 # -.05 # .003  #speed
+        balldfx: 0 # 0.4 # 25 #.018 #distance
+        ballifx: 0 # -0.001 
+        goalDist: 40
+        ballptx: 0 #-.3 #.5 #.1 
         balldtx: 1 
         ballpfz: 0 # .2 #.5
         balldfz: 1
-        ballptz: 0.01 #.03 #.1
+        ballptz: .0075 #0.001 #.03 #.1 # 0.01
         balldtz: 1
         lx: .3
         goalHeight: 2.6
