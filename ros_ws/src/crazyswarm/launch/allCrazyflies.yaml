@@ -1,19 +1,17 @@
 crazyflies:
-   - id: 02
-     channel: 80
-     initialPosition: [0, 0, 0.0]
-     type: bicopter
-   - id: 01
-     channel: 80
-     initialPosition: [0, 0, 0.0]
-     type: bicopter
-   - id: 03
-     channel: 81
-     initialPosition: [0, 0, 0.0]
-     type: sausage
-   - id: 04
-     channel: 81
-     initialPosition: [0, 0, 0.0]
-     type: sausage
-     
-   
+  - id: 1
+    channel: 92
+    initialPosition: [1.5, 1.5, 0.0]
+    type: sausage
+  - id: 2
+    channel: 92
+    initialPosition: [1.5, 1.5, 0.0]
+    type: sausage
+  - id: 3
+    channel: 92
+    initialPosition: [1.5, 1.5, 0.0]
+    type: sausage
+  - id: 4
+    channel: 92
+    initialPosition: [-1.0, -0.5, 0.0]
+    type: sausage

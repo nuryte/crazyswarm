@@ -33,17 +33,67 @@ crazyflieTypes:
     dynamicsConfiguration: 0
     firmwareParams:
       ctrlMel:
-        kp_xy: 0 #0.6 # p for position
-        kd_xy: 0 # 0.35 # d for position
-        kR_xy: 1 #-.025 # -.1 # p for attitude
-        kw_xy: -1 #-2 # d for attitude
-        kR_z: 10 #5 # 70000 # p for yaw
-        kw_z: -10 # -1 #-.08 # 30000  # d for yaw
+        ki_xy: 1 #0 #1 # if not 0, then use complex orientation stuff
+        #kp_xy: 0 #0.6 #p for position
+        #kd_xy: 0 # 0.35 # d for position
+        kR_xy: -1 #2 #-1 #-.025 # -.1 # p for attitude
+        kw_xy: 0.13 # d for attitude
+        kR_z: -3 #5 # 70000 # p for yaw
+        kw_z: 1.5 #1 # -1 #-.08 # 30000  # d for yaw
         kp_z: .8
         kd_z: 0.4
-        ki_z: 0.05
+        #ki_z: 0.05
         lx: 1
         ly: 1
+        ir: 1 #-1 #-1 #-1
+        ip: 1  #-1
+        rpswap: 0
+  sausageroll:
+    bigQuad: True
+    batteryVoltageWarning: 7.6  # V
+    batteryVoltateCritical: 7.4 # V
+    markerConfiguration: 0 # change to 3 for single marker tracking
+    dynamicsConfiguration: 0
+    firmwareParams:
+      ctrlMel:
+        ki_xy: 1 #0 #1 # if not 0, then use complex orientation stuff
+        #kp_xy: 0 #0.6 #p for position
+        #kd_xy: 0 # 0.35 # d for position
+        kR_xy: 0 #2 #-1 #-.025 # -.1 # p for attitude
+        kw_xy: 0 #.1 #-.5 #-1 #-2 # d for attitude
+        kR_z: -3 #5 # 70000 # p for yaw
+        kw_z: 0 #1 # -1 #-.08 # 30000  # d for yaw
+        kp_z: .8
+        kd_z: 0.4
+        #ki_z: 0.05
+        lx: 1
+        ly: 1
+        ir: -1 #-1 #-1 #-1
+        ip: 1  #-1
+        rpswap: 1
+  sausagepitch:
+    bigQuad: True
+    batteryVoltageWarning: 7.6  # V
+    batteryVoltateCritical: 7.4 # V
+    markerConfiguration: 0 # change to 3 for single marker tracking
+    dynamicsConfiguration: 0
+    firmwareParams:
+      ctrlMel:
+        ki_xy: 1 #0 #1 # if not 0, then use complex orientation stuff
+        #kp_xy: 0 #0.6 #p for position
+        #kd_xy: 0 # 0.35 # d for position
+        kR_xy: 0 #2 #-1 #-.025 # -.1 # p for attitude
+        kw_xy: 0 #.1 #-.5 #-1 #-2 # d for attitude
+        kR_z: -3 #5 # 70000 # p for yaw
+        kw_z: 0 #1 # -1 #-.08 # 30000  # d for yaw
+        kp_z: .8
+        kd_z: 0.4
+        #ki_z: 0.05
+        lx: 1
+        ly: 1
+        ir: -1 #-1 #-1 #-1
+        ip: 1  #-1
+        rpswap: 1
   octagon:
     bigQuad: True
     batteryVoltageWarning: 7.6  # V

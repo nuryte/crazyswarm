@@ -1,10 +1,10 @@
 <?xml version="1.0"?>
 <launch>
-  <arg name="joy_dev" default="/dev/input/js4" />
+  <arg name="joy_dev" default="/dev/input/js0" />
 
   <rosparam command="load" file="$(find crazyswarm)/launch/crazyflieTypes.yaml" />
   <rosparam command="load" file="$(find crazyswarm)/launch/crazyflies.yaml" />
-  <node name = "openmvController" pkg="crazyswarm" type = "openmvController.py" output = "screen"/>
+  <node name = "openmvController" pkg="crazyswarm" type = "reception_rpc.py" output = "screen"/>
 
   <node pkg="crazyswarm" type="crazyswarm_server" name="crazyswarm_server" output="screen" >
     <rosparam>
