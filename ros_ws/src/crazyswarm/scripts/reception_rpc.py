@@ -8,13 +8,14 @@ from datetime import datetime
 def exe_color_detection(interface):
     result = interface.call("difference_goal_blob")
     if result is not None and len(result):
-        res = struct.unpack("<HHH", result)
+        res = struct.unpack("<BBHh", result)# color(0 means none, 1 orange, 2 green), cx, cy, longest side, vx, vy, vlongest side
         #print("Largest Color Detected: cx={}, cy={}, size={}".format(res[0], res[1], res[2]))
         msg = Float64MultiArray()
         # need data in the format [fx,fy, fz, tx, ty, tz] for bicopter we cant do fy or ty, so we will replace with tz or tx
-        horizon = (round(res[0]/160,3)-0.5)
-        vertical = (round(res[1]/120,3)-0.5)
-        temp = [horizon, vertical, res[2]]
+        horizon = (round(res[2]/160,3)-0.5)
+        #vertical = (round(res[2]/120,3)-0.5)
+        #res[1] : orange = True, green = False
+        temp = [res[0],res[1],horizon, res[3]/128]#[res[0], horizon, vertical, res[3], res[4]/128, res[5]/128, res[6]/128]
         msg.data = temp
         pub.publish(msg)
 
